@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "firebase-backend": "^0.2.5"
+  }
+}
