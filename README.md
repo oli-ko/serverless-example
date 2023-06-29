@@ -1,3 +1,16 @@
-### in /backend/functions run "npm run serve"
+### setup
+1. install firebase cli
+2. login to firebase cli
+3. install firebase tools. This is potentially done automatically when you try starting, it was when setting up the project. 
 
-curl -X POST http://127.0.0.1:5001/serverless-example-7692345/us-central1/users-api/addPaymentMethod -H 'Content-Type: application/json' -d '{"card_number":"42","card_holder":"Mr. Me"}'
+### starting everything
+for only functions: in /backend/functions run "npm run serve" to start the firebase functions emulator
+
+for functions & firestore: in /backend/functions run "npm run build && firebase emulators:start" to start the firebase functions emulator and firestore emulator
+
+then use postman & click on the Firestore emulator link printed to the console to test some reactive functions. 
+with curl parsing the json body did not work even though the header was set to application/json 
+
+### deploying
+does not work because we are not paying.
+for only functions: in /backend/functions run "npm run deploy" to deploy the functions to firebase
