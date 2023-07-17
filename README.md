@@ -1,7 +1,6 @@
 ### setup
 1. install firebase cli
-2. login to firebase cli
-3. install firebase tools. This is potentially done automatically when you try starting, it was when setting up the project. 
+2. run `npm install` in /backend/functions and once in /
 
 ### starting everything
 for only functions: in /backend/functions run "npm run serve" to start the firebase functions emulator
