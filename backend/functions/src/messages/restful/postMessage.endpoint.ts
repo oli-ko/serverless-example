@@ -1,33 +1,45 @@
 import { Request, Response } from "express";
 import { Endpoint, RequestType } from "firebase-backend";
+const admin = require("firebase-admin");
 
 export default new Endpoint(
   "postMessage",
   RequestType.POST,
   async (request: Request, response: Response) => {
-    const admin = require("firebase-admin");
+    const data = getData(request);
 
-    // store message, username in firestores messages collection
-    const data = {
-      message: request.body["message"],
-      username: request.body["username"],
-      ts: request.body["ts"] ? parseInt(request.body["ts"]) : Date.now(),
-    };
-    admin
+    if (containsBadWords(data.message)) {
+      response.status(403).send("Language!");
+    }
+    else {
+      admin
       .firestore()
       .collection("messages")
       .add(data)
       .then((writeResult: any) => {
-        console.log("Message written to Firestore");
         response.status(201).send(writeResult);
       })
       .catch((err: any) => {
-        console.log(err);
-        console.log("Error writing message to Firestore");
         response.status(500).send(err);
       });
+    }
   },
   {
-    enableCors: process.env.FUNCTIONS_EMULATOR === "true",
+    enableCors: true
   }
 );
+
+
+function containsBadWords(str: string): boolean {
+  const badWords = ["bad", "word"];
+  return badWords.some((word) => str.includes(word));
+}
+
+
+function getData(request: Request) {
+  return {
+    message: request.body["message"],
+    username: request.body["username"],
+    ts: request.body["ts"] ? parseInt(request.body["ts"]) : Date.now(),
+  };
+}
